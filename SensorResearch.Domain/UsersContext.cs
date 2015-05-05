@@ -4,7 +4,7 @@ using SensorResearch.Domain.Models;
 
 namespace SensorResearch.Domain
 {
-    public class UsersContext : DbContext, IDisposable
+    public class UsersContext : DbContext
     {
         public UsersContext()
             : base("DefaultConnection")
