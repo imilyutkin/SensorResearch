@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SensorResearch.Domain.Models
@@ -10,5 +11,12 @@ namespace SensorResearch.Domain.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int UserId { get; set; }
         public string UserName { get; set; }
+
+        [MaxLength(6)]
+        public String GroupNumber
+        {
+            get;
+            set;
+        }
     }
 }
