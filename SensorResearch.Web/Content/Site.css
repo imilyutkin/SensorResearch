@@ -765,3 +765,9 @@ tr.pager td {
 .btn.key {
     font-size: 20px;
 }
+.btn.keyPressed {
+    background: green;
+}
+.btn.keySelected {
+    background: red;
+}
