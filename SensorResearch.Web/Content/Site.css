@@ -771,3 +771,9 @@ tr.pager td {
 .btn.keySelected {
     background: red;
 }
+.visible {
+    display: block !important;
+}
+.notVisible {
+    display: none;
+}

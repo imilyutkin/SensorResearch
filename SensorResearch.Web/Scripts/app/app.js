@@ -52,24 +52,32 @@ module.controller('KeyboardCtrl', ['$scope', '$location', '$rootScope', '$http',
     $scope.keyboard = keyboard;
     $scope.time = 0;
     $scope.results = [];
-
     $scope.timer = new Stopwatch();
     $scope.currentKeyPressed = null;
-
     $scope.currentkeySelected = null;
+    $scope.isSeeingTimeFixed = false;
+    $scope.pressSpaceForNext = false;
 
     $scope.$on('keyPressed', function (events, args) {
         var keyCode = args.keyCode;
-        $scope.currentKeyPressed = keyCode;
-        if (keyCode == 32) {
-            var time = $scope.timer.getTime();
-            $scope.results.push({ SeeTime: time, ReactTime: "" });
-        }
-        if ($scope.currentkeySelected == keyCode) {
-            $scope.currentkeySelected = null;
-            $scope.timer.stop();
-            $scope.results[$scope.results.length - 1].ReactTime = $scope.timer.getTime();
-            $scope.timer.reset();
+        if ($scope.currentkeySelected == null) {
+            $scope.currentKeyPressed = keyCode;
+        } else {
+            if (keyCode == 32) {
+                $scope.isSeeingTimeFixed = true;
+                $scope.timer.stop();
+                var time = $scope.timer.getTime();
+                $scope.timer.reset();
+                $scope.results.push({ SeeTime: time, ReactTime: "" });
+            }
+            if ($scope.currentkeySelected == keyCode && $scope.isSeeingTimeFixed) {
+                $scope.currentkeySelected = null;
+                $scope.timer.stop();
+                $scope.results[$scope.results.length - 1].ReactTime = $scope.timer.getTime();
+                $scope.timer.reset();
+                $scope.currentKeyPressed = keyCode;
+                $scope.pressSpaceForNext = true;
+            }
         }
     });
 
@@ -77,7 +85,8 @@ module.controller('KeyboardCtrl', ['$scope', '$location', '$rootScope', '$http',
         $http.post('/Home/SaveResults', { msg: JSON.stringify($scope.results) })
             .success(function (data, status, headers, config) {
               // this callback will be called asynchronously
-              // when the response is available
+                // when the response is available
+                console.log("suc")
             })
             .error(function (data, status, headers, config) {
               // called asynchronously if an error occurs
@@ -112,18 +121,6 @@ module.controller('KeyboardCtrl', ['$scope', '$location', '$rootScope', '$http',
 
     $scope.getRandomInt = function(min, max) {
         return Math.floor(Math.random() * (max - min + 1)) + min;
-    };
-
-    $scope.startTimer = function() {
-        $scope.timer.start();
-    };
-
-    $scope.stopTimer = function() {
-        $scope.timer.stop();
-    };
-
-    $scope.getTimer = function() {
-        console.log($scope.timer.getTime());
     };
 
     $scope.startScenario = function () {

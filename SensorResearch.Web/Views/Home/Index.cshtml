@@ -3,17 +3,13 @@
 }
 
 <div class="container" ng-controller="KeyboardCtrl">
+    <div class="alert alert-info notVisible" ng-class="{visible: !isSeeingTimeFixed}" role="alert">Нажмите пробел</div>
+    <div class="alert alert-success notVisible" ng-class="{visible: !isSeeingTimeFixed}" role="alert">Нажмите пробел чтобы продложить</div>
     <div class="row keyboardRow" ng-repeat="rowKeys in keyboard">
         <div class="col-md-1" ng-repeat="key in rowKeys">
             <button type="button" class="btn square key" ng-class="{keyPressed: isKeyPressed('{{key.keyCode}}'), keySelected: isKeySelected('{{key.keyCode}}')}" ng-bind="key.key"></button>
         </div>
     </div>
-    <button type="button" class="btn" ng-click="selectRandomKey()">random</button>
     <button type="button" class="btn" ng-click="startScenario()">Start scenario</button>
-    <button type="button" class="btn" ng-click="startTimer()">Start</button>
-    <button type="button" class="btn" ng-click="getTimer()">Time</button>
-    <button type="button" class="btn" ng-click="stopTimer()">Stop</button>
     <button type="button" class="btn" ng-click="postData()">Post</button>
-
-    <span ng-bind="{{time}}"></span>
 </div>
