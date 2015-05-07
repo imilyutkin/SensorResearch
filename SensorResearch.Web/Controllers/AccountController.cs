@@ -47,11 +47,6 @@ namespace SensorResearch.Web.Controllers
             return View(model);
         }
 
-        //
-        // POST: /Account/LogOff
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
         public ActionResult LogOff()
         {
             WebSecurity.Logout();

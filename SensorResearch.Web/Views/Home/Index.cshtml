@@ -1,8 +1,8 @@
 ﻿@{
-    ViewBag.Title = "Home Page";
+    ViewBag.Title = "Исследование моторной реакции";
 }
 
-<div class="container" ng-controller="KeyboardCtrl">
+<div class="container" ng-view="">
     <div class="alert alert-info notVisible" ng-class="{visible: !isSeeingTimeFixed}" role="alert">Нажмите пробел</div>
     <div class="alert alert-success notVisible" ng-class="{visible: !isSeeingTimeFixed}" role="alert">Нажмите пробел чтобы продложить</div>
     <div class="row keyboardRow" ng-repeat="rowKeys in keyboard">

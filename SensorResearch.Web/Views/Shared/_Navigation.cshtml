@@ -5,12 +5,15 @@
       <a class="navbar-brand" href="#">Исследование сенсомоторной реакции</a>
     </div>
 
-      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1" ng-controller="NavCtrl">
           @if (Request.IsAuthenticated)
           {
               <ul class="nav navbar-nav">
-                  <li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>
-                  <li><a href="#">Link</a></li>
+                  <li ng-class="{'active': isActive('/home')}"><a ng-href="#/home">Главная</a></li>
+                  <li ng-class="{'active': isActive('/desc')}"><a ng-href="#/desc">Описание</a></li>
+                  <li ng-class="{'active': isActive('/options')}"><a ng-href="#/options">Настройки</a></li>
+                  <li ng-class="{'active': isActive('/experiment')}"><a ng-href="#/experiment">Эксперимент</a></li>
+                  <li ng-class="{'active': isActive('/results')}"><a ng-href="#/results">Результат</a></li>
               </ul>
           }
           <ul class="nav navbar-nav navbar-right">

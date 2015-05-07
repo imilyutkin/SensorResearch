@@ -1,5 +1,7 @@
 ﻿var module = angular
-    .module('sensorResearchApp', []);
+    .module('sensorResearchApp', [
+        'ngRoute'
+    ]);
 
 var keyboard = [
     [
@@ -48,7 +50,7 @@ var keyboard = [
     ]
 ];
 
-module.controller('KeyboardCtrl', ['$scope', '$location', '$rootScope', '$http', function ($scope, $location, $rootScope, $http) {
+module.controller('ExperimentCtrl', ['$scope', '$location', '$rootScope', '$http', function ($scope, $location, $rootScope, $http) {
     $scope.keyboard = keyboard;
     $scope.time = 0;
     $scope.results = [];
@@ -185,3 +187,52 @@ var Stopwatch = function (options) {
     this.reset = reset;
     this.getTime = getTime;
 };
+
+module.config(function ($routeProvider) {
+    $routeProvider
+      .when('/home', {
+          templateUrl: '/Content/views/home.html',
+          controller: 'HomeCtrl'
+      })
+      .when('/desc', {
+          templateUrl: '/Content/views/description.html',
+          controller: 'DescriptionCtrl'
+      })
+      .when('/options', {
+          templateUrl: '/Content/views/options.html',
+          controller: 'OptionsCtrl'
+      })
+      .when('/experiment', {
+          templateUrl: '/Content/views/experiment.html',
+          controller: 'ExperimentCtrl'
+      })
+      .when('/results', {
+          templateUrl: '/Content/views/results.html',
+          controller: 'ResultsCtrl'
+      })
+      .otherwise({
+          redirectTo: '/home'
+      });
+});
+
+module.controller('NavCtrl', ['$scope', '$location', function ($scope, $location) {
+    $scope.isActive = function(routeLocation) {
+        return routeLocation === $location.path();
+    };
+}]);
+
+module.controller('HomeCtrl', ['$scope', '$location', function ($scope, $location) {
+
+}]);
+
+module.controller('ResultsCtrl', ['$scope', '$location', function ($scope, $location) {
+
+}]);
+
+module.controller('OptionsCtrl', ['$scope', '$location', function ($scope, $location) {
+
+}]);
+
+module.controller('DescriptionCtrl', ['$scope', '$location', function ($scope, $location) {
+
+}]);
