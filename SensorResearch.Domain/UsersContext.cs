@@ -1,5 +1,4 @@
-﻿using System;
-using System.Data.Entity;
+﻿using System.Data.Entity;
 using SensorResearch.Domain.Models;
 
 namespace SensorResearch.Domain
@@ -12,5 +11,16 @@ namespace SensorResearch.Domain
         }
 
         public DbSet<UserProfile> UserProfiles { get; set; }
+
+        public DbSet<ExperimentResult> ExperimentResults { get; set; }
+
+        public DbSet<ExperimentData> ExperimentDatas { get; set; }
+
+        private static readonly UsersContext Instance = new UsersContext();
+
+        public static UsersContext Current
+        {
+            get { return Instance; }
+        }
     }
 }

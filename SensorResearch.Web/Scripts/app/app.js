@@ -48,25 +48,52 @@ var keyboard = [
     ]
 ];
 
-module.controller('KeyboardCtrl', ['$scope', '$location', '$rootScope', function ($scope, $location, $rootScope) {
+module.controller('KeyboardCtrl', ['$scope', '$location', '$rootScope', '$http', function ($scope, $location, $rootScope, $http) {
     $scope.keyboard = keyboard;
+    $scope.time = 0;
+    $scope.results = [];
+
+    $scope.timer = new Stopwatch();
     $scope.currentKeyPressed = null;
 
     $scope.currentkeySelected = null;
 
-    $scope.$on('keyPressed', function(events, args) {
-        $scope.currentKeyPressed = args.keyCode;
+    $scope.$on('keyPressed', function (events, args) {
+        var keyCode = args.keyCode;
+        $scope.currentKeyPressed = keyCode;
+        if (keyCode == 32) {
+            var time = $scope.timer.getTime();
+            $scope.results.push({ SeeTime: time, ReactTime: "" });
+        }
+        if ($scope.currentkeySelected == keyCode) {
+            $scope.currentkeySelected = null;
+            $scope.timer.stop();
+            $scope.results[$scope.results.length - 1].ReactTime = $scope.timer.getTime();
+            $scope.timer.reset();
+        }
     });
+
+    $scope.postData = function() {
+        $http.post('/Home/SaveResults', { msg: JSON.stringify($scope.results) })
+            .success(function (data, status, headers, config) {
+              // this callback will be called asynchronously
+              // when the response is available
+            })
+            .error(function (data, status, headers, config) {
+              // called asynchronously if an error occurs
+              // or server returns response with an error status.
+          });
+    };
 
     $scope.isKeyPressed = function (keyCode) {
         return $scope.currentKeyPressed == keyCode;
-    }
+    };
 
-    $scope.isKeySelected = function (keyCode) {
+    $scope.isKeySelected = function(keyCode) {
         return $scope.currentkeySelected == keyCode;
-    }
+    };
 
-    $scope.selectRandomKey = function () {
+    $scope.selectRandomKey = function() {
         var i = $scope.getRandomInt(0, 3);
         var j = 0;
         if (i == 0 || i == 1) {
@@ -81,13 +108,29 @@ module.controller('KeyboardCtrl', ['$scope', '$location', '$rootScope', function
         var key = $scope.keyboard[i][j];
         $scope.currentkeySelected = key["keyCode"];
         $scope.keyboard[i][j].selected = true;
-    }
+    };
 
-    $scope.getRandomInt = function (min, max) {
+    $scope.getRandomInt = function(min, max) {
         return Math.floor(Math.random() * (max - min + 1)) + min;
-    }
+    };
 
+    $scope.startTimer = function() {
+        $scope.timer.start();
+    };
 
+    $scope.stopTimer = function() {
+        $scope.timer.stop();
+    };
+
+    $scope.getTimer = function() {
+        console.log($scope.timer.getTime());
+    };
+
+    $scope.startScenario = function () {
+        $scope.currentKeyPressed = null;
+        $scope.selectRandomKey();
+        $scope.timer.start();
+    };
 }]);
 
 module.controller('KeyPressedCtrl', ['$scope', '$location', '$rootScope', function ($scope, $location, $rootScope) {
@@ -96,4 +139,52 @@ module.controller('KeyPressedCtrl', ['$scope', '$location', '$rootScope', functi
     }
 }]);
 
+var Stopwatch = function (options) {
+    var offset,
+        clock,
+        interval;
 
+    options = options || {};
+    options.delay = options.delay || 10;
+
+    reset();
+
+    function start() {
+        if (!interval) {
+            offset = Date.now();
+            interval = setInterval(update, options.delay);
+        }
+    }
+
+    function stop() {
+        if (interval) {
+            clearInterval(interval);
+            interval = null;
+        }
+    }
+
+    function reset() {
+        clock = 0;
+    }
+
+    function update() {
+        clock += delta();
+    }
+
+    function delta() {
+        var now = Date.now(),
+            d = now - offset;
+
+        offset = now;
+        return d;
+    }
+
+    function getTime() {
+        return clock / 1000;
+    }
+
+    this.start = start;
+    this.stop = stop;
+    this.reset = reset;
+    this.getTime = getTime;
+};
