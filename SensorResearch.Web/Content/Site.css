@@ -62,10 +62,28 @@ background-color: #e8e8e8;
 .inScope {
     font-weight: 900 !important;
       border: 1px solid black !important;
+      background: greenyellow;
 }
 .counter {
     background: rgb(239, 238, 239);
     border: none;   
     font-size: 40px;
     cursor: context-menu;
+}
+.jumbotron p {
+      text-align: justify;
+      text-indent: 50px;
+}
+.homeStyle {
+    font-size: 42px !important;
+}
+.container.home {
+    text-align: center !important; 
+}
+.jumbotron .container.home p {
+    text-align: center !important; 
+    padding-top: 75px;
+}
+.jumbotron .container.home first-child {
+    padding-top: 20px;
 }
