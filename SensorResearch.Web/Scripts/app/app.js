@@ -50,7 +50,7 @@ var keyboard = [
     ]
 ];
 
-module.controller('ExperimentCtrl', ['$scope', '$location', '$rootScope', '$http', function ($scope, $location, $rootScope, $http) {
+module.controller('ExperimentCtrl', ['$scope', '$location', '$rootScope', '$http', '$timeout', function ($scope, $location, $rootScope, $http, $timeout) {
     $scope.keyboard = keyboard;
     $scope.time = 0;
     $scope.results = [];
@@ -58,19 +58,46 @@ module.controller('ExperimentCtrl', ['$scope', '$location', '$rootScope', '$http
     $scope.currentKeyPressed = null;
     $scope.currentkeySelected = null;
     $scope.isSeeingTimeFixed = false;
+    $scope.isStarted = false;
+    $scope.isFinished = false;
     $scope.pressSpaceForNext = false;
+    $scope.countRepeat = 5;
+    $scope.currentNumber = 0;
+    $scope.isDataSavedSuccesfull = false;
+    $scope.isDataSavedWithError = false;
 
     $scope.$on('keyPressed', function (events, args) {
+        if ($scope.isFinished) {
+            return;
+        }
+
         var keyCode = args.keyCode;
+
+        if (!$scope.isStarted && keyCode == 32) {
+            $scope.isStarted = true;
+            $scope.startScenario();
+            return;
+        }
+
         if ($scope.currentkeySelected == null) {
             $scope.currentKeyPressed = keyCode;
+            if (keyCode == 32) {
+                $scope.pressSpaceForNext = false;
+                if ($scope.currentNumber >= $scope.countRepeat) {
+                    $scope.postData();
+                    $scope.isFinished = true;
+                    return;
+                }
+                $scope.startScenario();
+            }
         } else {
             if (keyCode == 32) {
                 $scope.isSeeingTimeFixed = true;
                 $scope.timer.stop();
                 var time = $scope.timer.getTime();
-                $scope.timer.reset();
                 $scope.results.push({ SeeTime: time, ReactTime: "" });
+                $scope.timer.reset();
+                $scope.timer.start();
             }
             if ($scope.currentkeySelected == keyCode && $scope.isSeeingTimeFixed) {
                 $scope.currentkeySelected = null;
@@ -79,6 +106,7 @@ module.controller('ExperimentCtrl', ['$scope', '$location', '$rootScope', '$http
                 $scope.timer.reset();
                 $scope.currentKeyPressed = keyCode;
                 $scope.pressSpaceForNext = true;
+                $scope.isSeeingTimeFixed = false;
             }
         }
     });
@@ -86,14 +114,11 @@ module.controller('ExperimentCtrl', ['$scope', '$location', '$rootScope', '$http
     $scope.postData = function() {
         $http.post('/Home/SaveResults', { msg: JSON.stringify($scope.results) })
             .success(function (data, status, headers, config) {
-              // this callback will be called asynchronously
-                // when the response is available
-                console.log("suc")
+                $scope.isDataSavedSuccesfull = true;
             })
             .error(function (data, status, headers, config) {
-              // called asynchronously if an error occurs
-              // or server returns response with an error status.
-          });
+                $scope.isDataSavedWithError = true;
+        });
     };
 
     $scope.isKeyPressed = function (keyCode) {
@@ -126,9 +151,14 @@ module.controller('ExperimentCtrl', ['$scope', '$location', '$rootScope', '$http
     };
 
     $scope.startScenario = function () {
-        $scope.currentKeyPressed = null;
-        $scope.selectRandomKey();
-        $scope.timer.start();
+        var delay = $scope.getRandomInt(1, 10) * 1000;
+        $timeout(function() {
+            $scope.currentNumber++;
+            $scope.currentKeyPressed = null;
+            $scope.selectRandomKey();
+            $scope.timer.start();
+        }, delay);
+
     };
 }]);
 
@@ -195,7 +225,7 @@ module.config(function ($routeProvider) {
           controller: 'HomeCtrl'
       })
       .when('/desc', {
-          templateUrl: '/Content/views/description.html',
+          templateUrl: '/Content/views/desc.html',
           controller: 'DescriptionCtrl'
       })
       .when('/options', {
