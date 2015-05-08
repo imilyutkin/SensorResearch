@@ -8,6 +8,7 @@ namespace SensorResearch.Domain
         public UsersContext()
             : base("DefaultConnection")
         {
+            this.Configuration.LazyLoadingEnabled = false;
         }
 
         public DbSet<UserProfile> UserProfiles { get; set; }

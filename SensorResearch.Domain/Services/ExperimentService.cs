@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Data.Entity;
+using System.Linq;
 using SensorResearch.Domain.Models;
 using SensorResearch.Domain.Repositories;
 
@@ -10,7 +11,7 @@ namespace SensorResearch.Domain.Services
 
         public ExperimentService()
         {
-            Repository = new Repository<ExperimentResult>();
+            Repository = new ExperimentResultRepository();
         }
 
         public int Save(ExperimentResult result)

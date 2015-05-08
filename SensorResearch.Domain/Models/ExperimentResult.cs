@@ -48,7 +48,7 @@ namespace SensorResearch.Domain.Models
             set;
         }
 
-        public ICollection<ExperimentData> ExperimentDatas
+        public virtual ICollection<ExperimentData> ExperimentDatas
         {
             get;
             set;

@@ -257,6 +257,8 @@ module.controller('HomeCtrl', ['$scope', '$location', function ($scope, $locatio
 }]);
 
 module.controller('ResultsCtrl', ['$scope', '$location', '$rootScope', '$http', function ($scope, $location, $rootScope, $http) {
+    $scope.index = 1;
+
     $scope.getExperimentResult = function () {
         
     $rootScope.experimentResultId = 28;
@@ -267,6 +269,11 @@ module.controller('ResultsCtrl', ['$scope', '$location', '$rootScope', '$http', 
                 .success(function (data, status, headers, config) {
                     console.log(JSON.parse(data));
                     $scope.result = JSON.parse(data);
+                    var results = $scope.result.ExperimentDatas;
+                    for (var i = 0; i < results.length; i++) {
+                        results[i].index = i + 1;
+                    }
+                    $scope.result.ExperimentDatas = results;
                 })
                 .error(function(data, status, headers, config) {
 

@@ -15,7 +15,7 @@ namespace SensorResearch.Domain.Repositories
                 return UsersContext.Current;
             }
         }
-        public IQueryable<TEntity> GetAll()
+        public virtual IQueryable<TEntity> GetAll()
         {
             return CreativesContext.Set<TEntity>().AsQueryable();
         }
@@ -46,7 +46,7 @@ namespace SensorResearch.Domain.Repositories
             CreativesContext.SaveChanges();
         }
 
-        public IQueryable<TEntity> GetBy(Func<TEntity, bool> predicate)
+        public virtual IQueryable<TEntity> GetBy(Func<TEntity, bool> predicate)
         {
             return CreativesContext.Set<TEntity>().Where(predicate).AsQueryable();
         }
