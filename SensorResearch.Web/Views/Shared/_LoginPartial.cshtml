@@ -3,7 +3,7 @@
     <li class="dropdown">
           <a href="" class="" data-toggle="dropdown" role="button" aria-expanded="false"><span class="glyphicon glyphicon-user"> </span><span class="caret"></span></a>
         <ul class="dropdown-menu" role="menu">
-             <li><a href="">Профиль</a></li>
+             <li>@Html.ActionLink("Профиль", "Index", "Profile", routeValues: null, htmlAttributes: new { id = "profile" })</li>
             <li class="divider"></li>
             <li>
                 @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" })) {

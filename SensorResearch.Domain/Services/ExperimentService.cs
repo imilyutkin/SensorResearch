@@ -1,4 +1,5 @@
-﻿using System.Data.Entity;
+﻿using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using SensorResearch.Domain.Models;
 using SensorResearch.Domain.Repositories;
@@ -20,9 +21,9 @@ namespace SensorResearch.Domain.Services
         }
 
 
-        public ExperimentResult GetLastExperimentForUser(UserProfile user)
+        public IEnumerable<ExperimentResult> GetLastExperimentForUser(UserProfile user)
         {
-            return Repository.GetBy(result => result.User.UserName.Equals(user.UserName)).OrderByDescending(result => result.ExpirementDate).First();
+            return Repository.GetBy(result => result.User.UserName.Equals(user.UserName)).OrderByDescending(result => result.ExpirementDate);
         }
 
         public ExperimentResult GetResultsById(int id)

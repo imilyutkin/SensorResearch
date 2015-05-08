@@ -1,8 +1,42 @@
-﻿@model dynamic
+﻿@model IEnumerable<SensorResearch.Domain.Models.ExperimentResult>
 
 @{
-    ViewBag.Title = "title";
-    Layout = "_Layout";
+    ViewBag.Title = "Профиль";
 }
 
-<h2>title</h2>
+<div class="container">
+    <h3>Результаты эксперимента</h3>
+    @foreach (var item in Model)
+    {
+        <div>
+            <h4>Дата проведения: <span style="font-weight: bold;">@item.ExpirementDate.ToString()</span></h4>
+            <h4>Испытуемый: <span style="font-weight: bold;">@item.User.UserName</span> Номер группы: <span style="font-weight: bold;">@item.User.GroupNumber</span></h4>
+            <h4>Среднее время сенсорной реакции: <span style="font-weight: bold;">@item.AvarageTimeOfSensorReaction с.</span></h4>
+            <h4>Среднее время моторной реакции: <span style="font-weight: bold;">@item.AvarageTimeOfMotorReaction с.</span></h4>
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Время сенсорной реакции</th>
+                        <th>Время моторной реакции</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{ var i = 1;}
+                    @foreach (var data in item.ExperimentDatas)
+                    {
+                        <tr>
+                            <th scope="row">@i</th>
+                            <td>@data.TimeOfSensorReaction</td>
+                            <td>@data.TimeOfMotorReaction</td>
+                        </tr>
+                        i++;
+                    }
+
+                </tbody>
+            </table>
+        </div>
+    }
+    
+</div>
