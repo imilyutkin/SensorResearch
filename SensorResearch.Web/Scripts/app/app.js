@@ -5,48 +5,48 @@
 
 var keyboard = [
     [
-        { "key": "1", "keyCode": "49", "selected": false },
-        { "key": "2", "keyCode": "50", "selected": false },
-        { "key": "3", "keyCode": "51", "selected": false },
-        { "key": "4", "keyCode": "52", "selected": false },
-        { "key": "5", "keyCode": "53", "selected": false },
-        { "key": "6", "keyCode": "54", "selected": false },
-        { "key": "7", "keyCode": "55", "selected": false },
-        { "key": "8", "keyCode": "56", "selected": false },
-        { "key": "9", "keyCode": "57", "selected": false },
-        { "key": "0", "keyCode": "48", "selected": false }
+        { "key": "1", "keyCode": "49" },
+        { "key": "2", "keyCode": "50" },
+        { "key": "3", "keyCode": "51" },
+        { "key": "4", "keyCode": "52" },
+        { "key": "5", "keyCode": "53" },
+        { "key": "6", "keyCode": "54" },
+        { "key": "7", "keyCode": "55" },
+        { "key": "8", "keyCode": "56" },
+        { "key": "9", "keyCode": "57" },
+        { "key": "0", "keyCode": "48" }
     ],
     [
-        { "key": "Q", "keyCode": "81", "selected": false },
-        { "key": "W", "keyCode": "87", "selected": false },
-        { "key": "E", "keyCode": "69", "selected": false },
-        { "key": "R", "keyCode": "82", "selected": false },
-        { "key": "T", "keyCode": "84", "selected": false },
-        { "key": "Y", "keyCode": "89", "selected": false },
-        { "key": "U", "keyCode": "85", "selected": false },
-        { "key": "I", "keyCode": "73", "selected": false },
-        { "key": "O", "keyCode": "79", "selected": false },
-        { "key": "P", "keyCode": "80", "selected": false }
+        { "key": "Q", "keyCode": "81" },
+        { "key": "W", "keyCode": "87" },
+        { "key": "E", "keyCode": "69" },
+        { "key": "R", "keyCode": "82" },
+        { "key": "T", "keyCode": "84" },
+        { "key": "Y", "keyCode": "89" },
+        { "key": "U", "keyCode": "85" },
+        { "key": "I", "keyCode": "73" },
+        { "key": "O", "keyCode": "79" },
+        { "key": "P", "keyCode": "80" }
     ],
     [
-        { "key": "A", "keyCode": "65", "selected": false },
-        { "key": "S", "keyCode": "83", "selected": false },
-        { "key": "D", "keyCode": "68", "selected": false },
-        { "key": "F", "keyCode": "70", "selected": false },
-        { "key": "G", "keyCode": "71", "selected": false },
-        { "key": "H", "keyCode": "72", "selected": false },
-        { "key": "J", "keyCode": "74", "selected": false },
-        { "key": "K", "keyCode": "75", "selected": false },
-        { "key": "L", "keyCode": "76", "selected": false }
+        { "key": "A", "keyCode": "65" },
+        { "key": "S", "keyCode": "83" },
+        { "key": "D", "keyCode": "68" },
+        { "key": "F", "keyCode": "70" },
+        { "key": "G", "keyCode": "71" },
+        { "key": "H", "keyCode": "72" },
+        { "key": "J", "keyCode": "74" },
+        { "key": "K", "keyCode": "75" },
+        { "key": "L", "keyCode": "76" }
     ],
     [
-        { "key": "Z", "keyCode": "90", "selected": false },
-        { "key": "X", "keyCode": "88", "selected": false },
-        { "key": "C", "keyCode": "67", "selected": false },
-        { "key": "V", "keyCode": "86", "selected": false },
-        { "key": "B", "keyCode": "66", "selected": false },
-        { "key": "N", "keyCode": "78", "selected": false },
-        { "key": "M", "keyCode": "77", "selected": false }
+        { "key": "Z", "keyCode": "90" },
+        { "key": "X", "keyCode": "88" },
+        { "key": "C", "keyCode": "67" },
+        { "key": "V", "keyCode": "86" },
+        { "key": "B", "keyCode": "66" },
+        { "key": "N", "keyCode": "78" },
+        { "key": "M", "keyCode": "77" }
     ]
 ];
 
@@ -61,10 +61,17 @@ module.controller('ExperimentCtrl', ['$scope', '$location', '$rootScope', '$http
     $scope.isStarted = false;
     $scope.isFinished = false;
     $scope.pressSpaceForNext = false;
-    $scope.countRepeat = 5;
+    $scope.countRepeat = 20;
     $scope.currentNumber = 0;
     $scope.isDataSavedSuccesfull = false;
     $scope.isDataSavedWithError = false;
+    $scope.experimentScope = [];
+    $scope.experimentScopeKeys = [];
+
+    $scope.isInScope = function (keyCode) {
+        var index = $.inArray(keyCode, $scope.experimentScopeKeys);
+        return index != -1;
+    };
 
     $scope.$on('keyPressed', function (events, args) {
         if ($scope.isFinished) {
@@ -75,6 +82,7 @@ module.controller('ExperimentCtrl', ['$scope', '$location', '$rootScope', '$http
 
         if (!$scope.isStarted && keyCode == 32) {
             $scope.isStarted = true;
+            $scope.selectKeyboardScope();
             $scope.startScenario();
             return;
         }
@@ -111,6 +119,20 @@ module.controller('ExperimentCtrl', ['$scope', '$location', '$rootScope', '$http
         }
     });
 
+    $scope.selectKeyboardScope = function() {
+        var countOfStimuls = $scope.countOfStimuls;
+        var currentCount = 0;
+        while (currentCount < countOfStimuls) {
+            var point = $scope.selectRandomKey();
+            var key = $scope.keyboard[point.i][point.j];
+            if (!$scope.isInScope(key.keyCode)) {
+                $scope.experimentScope.push(key);
+                $scope.experimentScopeKeys.push(key.keyCode);
+                currentCount++;
+            }
+        }
+    };
+
     $scope.postData = function() {
         $http.post('/Home/SaveResults', { msg: JSON.stringify($scope.results.reverse()) })
             .success(function (data, status, headers, config) {
@@ -142,9 +164,8 @@ module.controller('ExperimentCtrl', ['$scope', '$location', '$rootScope', '$http
         if (i == 3) {
             j = $scope.getRandomInt(0, 6);
         }
-        var key = $scope.keyboard[i][j];
-        $scope.currentkeySelected = key["keyCode"];
-        $scope.keyboard[i][j].selected = true;
+        return { i: i, j: j };
+
     };
 
     $scope.getRandomInt = function(min, max) {
@@ -156,11 +177,36 @@ module.controller('ExperimentCtrl', ['$scope', '$location', '$rootScope', '$http
         $timeout(function() {
             $scope.currentNumber++;
             $scope.currentKeyPressed = null;
-            $scope.selectRandomKey();
+            $scope.selectRandomKeyFromScope();
             $scope.timer.start();
         }, delay);
-
     };
+
+    $scope.getCurrentNumber = function() {
+        return $scope.currentNumber;
+    }
+
+    $scope.selectRandomKeyFromScope = function() {
+        var i = $scope.getRandomInt(0, $scope.experimentScopeKeys.length - 1);
+
+        var keyCode = $scope.experimentScopeKeys[i];
+        $scope.currentkeySelected = keyCode;
+    };
+
+    $scope.init = function() {
+        if (!$rootScope.countOfStimuls) {
+            $scope.countOfStimuls = 1;
+        } else {
+            $scope.countOfStimuls = $rootScope.countOfStimuls;
+        }
+        if (!$rootScope.distance) {
+            $scope.distance = 10;
+        } else {
+            $scope.distance = $rootScope.distance;
+        }
+    };
+
+    $scope.init();
 }]);
 
 module.controller('KeyPressedCtrl', ['$scope', '$location', '$rootScope', function ($scope, $location, $rootScope) {
@@ -258,15 +304,14 @@ module.controller('HomeCtrl', ['$scope', '$location', function ($scope, $locatio
 
 module.controller('ResultsCtrl', ['$scope', '$location', '$rootScope', '$http', function ($scope, $location, $rootScope, $http) {
     $scope.index = 1;
+    $scope.showError = true;
 
     $scope.getExperimentResult = function () {
-        
-    $rootScope.experimentResultId = 28;
-
         if ($rootScope.experimentResultId) {
             var url = 'Home/GetResultData?id=' + $rootScope.experimentResultId;
             $http.get(url)
                 .success(function (data, status, headers, config) {
+                    $scope.showError = false;
                     console.log(JSON.parse(data));
                     $scope.result = JSON.parse(data);
                     var results = $scope.result.ExperimentDatas;
@@ -276,11 +321,14 @@ module.controller('ResultsCtrl', ['$scope', '$location', '$rootScope', '$http', 
                     $scope.result.ExperimentDatas = results;
                 })
                 .error(function(data, status, headers, config) {
-
-                });
+                $scope.showError = true;$scope.showError = true;
+            });
         }
-        
     };
+
+    $scope.isShowError = function() {
+        return $scope.showError;
+    }
 
     $scope.getExperimentResult();
 }]);

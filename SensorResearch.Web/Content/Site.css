@@ -59,3 +59,7 @@ background-color: #e8e8e8;
   padding: 15px;
   margin: 0 auto;
 }
+.inScope {
+    font-weight: 900 !important;
+      border: 1px solid black !important;
+}

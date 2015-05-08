@@ -1,22 +1,25 @@
 ﻿<h3>Результаты эксперимента</h3>
-<h4>Дата проведения: <span style="font-weight: bold;">{{result.ExpirementDate}}</span></h4>
-<h4>Испытуемый: <span style="font-weight: bold;">{{result.User.UserName}}.</span> Номер группы: <span style="font-weight: bold;">{{result.User.GroupNumber}}</span></h4>
-<h4>Среднее время сенсорной реакции: <span style="font-weight: bold;">{{result.AvarageTimeOfSensorReaction}} с.</span></h4>
-<h4>Среднее время моторной реакции: <span style="font-weight: bold;">{{result.AvarageTimeOfMotorReaction}} с.</span></h4>
+<div class="alert alert-danger notVisible" ng-class="{visible: isShowError()}" role="alert">Нет данных эксперимента. Пожалуйста, пройдите тест.</div>
+<div ng-class="{notVisible: isShowError()}">
+    <h4>Дата проведения: <span style="font-weight: bold;">{{result.ExpirementDate}}</span></h4>
+    <h4>Испытуемый: <span style="font-weight: bold;">{{result.User.UserName}}.</span> Номер группы: <span style="font-weight: bold;">{{result.User.GroupNumber}}</span></h4>
+    <h4>Среднее время сенсорной реакции: <span style="font-weight: bold;">{{result.AvarageTimeOfSensorReaction}} с.</span></h4>
+    <h4>Среднее время моторной реакции: <span style="font-weight: bold;">{{result.AvarageTimeOfMotorReaction}} с.</span></h4>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>#</th>
-            <th>Время сенсорной реакции</th>
-            <th>Время моторной реакции</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr ng-repeat="row in result.ExperimentDatas">
-          <th scope="row" ng-bind="{{row.index}}"></th>
-          <td ng-bind="{{row.TimeOfSensorReaction}}"></td>
-          <td ng-bind="{{row.TimeOfMotorReaction}}"></td>
-        </tr>
-      </tbody>
-</table>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Время сенсорной реакции</th>
+                <th>Время моторной реакции</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="row in result.ExperimentDatas">
+              <th scope="row" ng-bind="{{row.index}}"></th>
+              <td ng-bind="{{row.TimeOfSensorReaction}}"></td>
+              <td ng-bind="{{row.TimeOfMotorReaction}}"></td>
+            </tr>
+          </tbody>
+    </table>
+</div>
