@@ -43,24 +43,24 @@ namespace SensorResearch.Web.Controllers
         [HttpPost]
         public ActionResult SaveResults(string msg)
         {
-            IList<ExperimentData> datas =
-                JsonConvert.DeserializeObject<IList<ExperimentDataTime>>(msg)
-                    .Select(
-                        data =>
+            var data =
+                JsonConvert.DeserializeObject<Experiment>(msg);
+            var datas = data.Results.Select(
+                        d =>
                             new ExperimentData
                             {
-                                TimeOfMotorReaction = data.ReactTime,
-                                TimeOfSensorReaction = data.SeeTime
+                                TimeOfMotorReaction = d.ReactTime,
+                                TimeOfSensorReaction = d.SeeTime
                             }).ToList();
             var result = new ExperimentResult
             {
                 User = GetCurrentUserProfile(),
                 ExpirementDate = DateTime.Now,
-                Distance = 1,
-                AmountOfStimuls = 2,
+                Distance = data.Distance,
+                AmountOfStimuls = data.CountOfStimuls,
                 ExperimentDatas = datas,
-                AvarageTimeOfMotorReaction = datas.Average(data => data.TimeOfMotorReaction),
-                AvarageTimeOfSensorReaction = datas.Average(data => data.TimeOfSensorReaction)
+                AvarageTimeOfMotorReaction = datas.Average(d => d.TimeOfMotorReaction),
+                AvarageTimeOfSensorReaction = datas.Average(d => d.TimeOfSensorReaction)
             };
             var resultId = Service.Save(result);
             return new JsonResult
@@ -79,12 +79,32 @@ namespace SensorResearch.Web.Controllers
                 Data = tmp,
                 JsonRequestBehavior = JsonRequestBehavior.AllowGet
             };
-
         }
 
         private UserProfile GetCurrentUserProfile()
         {
             return UsersContext.Current.UserProfiles.First(user => user.UserName.Equals(User.Identity.Name));
+        }
+    }
+
+    public class Experiment
+    {
+        public int Distance
+        {
+            get;
+            set;
+        }
+
+        public int CountOfStimuls
+        {
+            get;
+            set;
+        }
+
+        public IList<ExperimentDataTime> Results
+        {
+            get;
+            set;
         }
     }
 

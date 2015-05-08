@@ -133,8 +133,13 @@ module.controller('ExperimentCtrl', ['$scope', '$location', '$rootScope', '$http
         }
     };
 
-    $scope.postData = function() {
-        $http.post('/Home/SaveResults', { msg: JSON.stringify($scope.results.reverse()) })
+    $scope.postData = function () {
+        var message = {
+            Distance: $scope.distance,
+            CountOfStimuls: $scope.countOfStimuls,
+            Results: $scope.results.reverse()
+        };
+        $http.post('/Home/SaveResults', { msg: JSON.stringify(message) })
             .success(function (data, status, headers, config) {
                 $scope.isDataSavedSuccesfull = true;
                 $rootScope.experimentResultId = data.id;
@@ -173,7 +178,7 @@ module.controller('ExperimentCtrl', ['$scope', '$location', '$rootScope', '$http
     };
 
     $scope.startScenario = function () {
-        var delay = $scope.getRandomInt(1, 10) * 1000;
+        var delay = $scope.getRandomInt(1, 10) /** 1000*/;
         $timeout(function() {
             $scope.currentNumber++;
             $scope.currentKeyPressed = null;
