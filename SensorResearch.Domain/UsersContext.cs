@@ -1,4 +1,5 @@
 ﻿using System.Data.Entity;
+using SensorResearch.Domain.Migrations;
 using SensorResearch.Domain.Models;
 
 namespace SensorResearch.Domain
@@ -22,6 +23,11 @@ namespace SensorResearch.Domain
         public static UsersContext Current
         {
             get { return Instance; }
+        }
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            Database.SetInitializer(new MigrateDatabaseToLatestVersion<UsersContext, Configuration>());
         }
     }
 }
