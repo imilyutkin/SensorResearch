@@ -18,5 +18,11 @@ namespace SensorResearch.Domain.Models
             get;
             set;
         }
+
+        public String LastName
+        {
+            get;
+            set;
+        }
     }
 }

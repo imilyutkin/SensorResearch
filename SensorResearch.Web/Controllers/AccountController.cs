@@ -78,7 +78,8 @@ namespace SensorResearch.Web.Controllers
                 {
                     WebSecurity.CreateUserAndAccount(model.UserName, model.Password, propertyValues: new
                     {
-                        GroupNumber = model.GroupNumber
+                        GroupNumber = model.GroupNumber,
+                        LastName = model.LastName
                     });
                     WebSecurity.Login(model.UserName, model.Password);
                     return RedirectToAction("Index", "Home");

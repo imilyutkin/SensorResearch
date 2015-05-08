@@ -67,6 +67,10 @@
     <Compile Include="Migrations\201505072113183_AddExpirementData.Designer.cs">
       <DependentUpon>201505072113183_AddExpirementData.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201505080853011_AddlastNameForUser.cs" />
+    <Compile Include="Migrations\201505080853011_AddlastNameForUser.Designer.cs">
+      <DependentUpon>201505080853011_AddlastNameForUser.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\BaseEntity.cs" />
     <Compile Include="Models\ExperimentData.cs" />
@@ -93,6 +97,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201505072113183_AddExpirementData.resx">
       <DependentUpon>201505072113183_AddExpirementData.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201505080853011_AddlastNameForUser.resx">
+      <DependentUpon>201505080853011_AddlastNameForUser.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

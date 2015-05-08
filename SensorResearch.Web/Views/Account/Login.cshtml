@@ -11,7 +11,7 @@
         @Html.AntiForgeryToken()
         @Html.ValidationSummary(true)
             <h2 class="form-signin-heading">Пожалуйста войдите</h2>
-            @Html.TextBoxFor(m => m.UserName, new { @class="form-control", placeholder = "User Name", autofocus=""})
+            @Html.TextBoxFor(m => m.UserName, new { @class="form-control", placeholder = "User login", autofocus=""})
             @Html.ValidationMessageFor(m => m.UserName)
             @Html.PasswordFor(m => m.Password, new { @class="form-control", placeholder = "Password", autofocus=""})
             @Html.ValidationMessageFor(m => m.Password)
@@ -20,7 +20,7 @@
                 @Html.CheckBoxFor(m => m.RememberMe) Запомнить меня
               </label>
             </div>
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Войти</button>
     }
    </div>
 
