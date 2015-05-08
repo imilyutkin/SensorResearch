@@ -178,7 +178,7 @@ module.controller('ExperimentCtrl', ['$scope', '$location', '$rootScope', '$http
     };
 
     $scope.startScenario = function () {
-        var delay = $scope.getRandomInt(1, 10) /** 1000*/;
+        var delay = $scope.getRandomInt(1, 10) * 1000;
         $timeout(function() {
             $scope.currentNumber++;
             $scope.currentKeyPressed = null;

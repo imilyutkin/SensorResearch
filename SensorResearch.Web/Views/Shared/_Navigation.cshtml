@@ -2,13 +2,12 @@
   <div class="container-fluid">
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
-      <a class="navbar-brand" href="#">Исследование сенсомоторной реакции</a>
+      <a class="navbar-brand" href="/#/home">Исследование сенсомоторной реакции</a>
     </div>
-
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1" ng-controller="NavCtrl">
 
               <ul class="nav navbar-nav">
-                  <li ng-class="{'active': isActive('/home')}"><a ng-href="#/home">Главная</a></li>
+                  <li ng-class="{'active': isActive('/home')}"><a ng-href="#/home#/home">Главная</a></li>
                     @if (Request.IsAuthenticated)
                     {
                         <li ng-class="{'active': isActive('/desc')}"><a ng-href="#/desc">Описание</a></li>
