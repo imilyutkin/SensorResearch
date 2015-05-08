@@ -20,10 +20,14 @@ namespace SensorResearch.Domain.Services
             return Repository.Create(result).Id;
         }
 
-
         public IEnumerable<ExperimentResult> GetLastExperimentForUser(UserProfile user)
         {
             return Repository.GetBy(result => result.User.UserName.Equals(user.UserName)).OrderByDescending(result => result.ExpirementDate);
+        }
+
+        public IEnumerable<ExperimentResult> GetAll()
+        {
+            return Repository.GetAll().OrderByDescending(result => result.ExpirementDate);
         }
 
         public ExperimentResult GetResultsById(int id)
