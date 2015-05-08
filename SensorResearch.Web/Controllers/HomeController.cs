@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web.Helpers;
 using System.Web.Mvc;
 using Newtonsoft.Json;
 using SensorResearch.Domain;
@@ -11,6 +12,13 @@ namespace SensorResearch.Web.Controllers
 {
     public class HomeController : Controller
     {
+        protected readonly ExperimentService Service;
+
+        public HomeController()
+        {
+            Service = new ExperimentService();
+        }
+
         public ActionResult Index()
         {
             ViewBag.Message = "Modify this template to jump-start your ASP.NET MVC application.";
@@ -33,9 +41,8 @@ namespace SensorResearch.Web.Controllers
         }
 
         [HttpPost]
-        public void SaveResults(string msg)
+        public ActionResult SaveResults(string msg)
         {
-            var service = new ExperimentService();
             IList<ExperimentData> datas =
                 JsonConvert.DeserializeObject<IList<ExperimentDataTime>>(msg)
                     .Select(
@@ -55,7 +62,24 @@ namespace SensorResearch.Web.Controllers
                 AvarageTimeOfMotorReaction = datas.Average(data => data.TimeOfMotorReaction),
                 AvarageTimeOfSensorReaction = datas.Average(data => data.TimeOfSensorReaction)
             };
-            service.Save(result);
+            var resultId = Service.Save(result);
+            return new JsonResult
+            {
+                Data = new { id = resultId }
+            };
+        }
+
+        [HttpGet]
+        public JsonResult GetResultData(int id)
+        {
+            var results = Service.GetResultsById(id);
+            var tmp = JsonConvert.SerializeObject(results);
+            return new JsonResult
+            {
+                Data = tmp,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+
         }
 
         private UserProfile GetCurrentUserProfile()

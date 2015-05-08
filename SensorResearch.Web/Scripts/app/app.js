@@ -112,9 +112,10 @@ module.controller('ExperimentCtrl', ['$scope', '$location', '$rootScope', '$http
     });
 
     $scope.postData = function() {
-        $http.post('/Home/SaveResults', { msg: JSON.stringify($scope.results) })
+        $http.post('/Home/SaveResults', { msg: JSON.stringify($scope.results.reverse()) })
             .success(function (data, status, headers, config) {
                 $scope.isDataSavedSuccesfull = true;
+                $rootScope.experimentResultId = data.id;
             })
             .error(function (data, status, headers, config) {
                 $scope.isDataSavedWithError = true;
@@ -151,7 +152,7 @@ module.controller('ExperimentCtrl', ['$scope', '$location', '$rootScope', '$http
     };
 
     $scope.startScenario = function () {
-        var delay = $scope.getRandomInt(1, 10) * 1000;
+        var delay = $scope.getRandomInt(1, 10)/* * 1000*/;
         $timeout(function() {
             $scope.currentNumber++;
             $scope.currentKeyPressed = null;
@@ -255,11 +256,29 @@ module.controller('HomeCtrl', ['$scope', '$location', function ($scope, $locatio
 
 }]);
 
-module.controller('ResultsCtrl', ['$scope', '$location', function ($scope, $location) {
+module.controller('ResultsCtrl', ['$scope', '$location', '$rootScope', '$http', function ($scope, $location, $rootScope, $http) {
+    $scope.getExperimentResult = function () {
+        
+    $rootScope.experimentResultId = 28;
 
+        if ($rootScope.experimentResultId) {
+            var url = 'Home/GetResultData?id=' + $rootScope.experimentResultId;
+            $http.get(url)
+                .success(function (data, status, headers, config) {
+                    console.log(JSON.parse(data));
+                    $scope.result = JSON.parse(data);
+                })
+                .error(function(data, status, headers, config) {
+
+                });
+        }
+        
+    };
+
+    $scope.getExperimentResult();
 }]);
 
-module.controller('OptionsCtrl', ['$scope', '$location', function ($scope, $location) {
+module.controller('OptionsCtrl', ['$scope', '$location', '$rootScope', function ($scope, $location, $rootScope) {
 
 }]);
 

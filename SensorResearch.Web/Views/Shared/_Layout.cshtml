@@ -8,12 +8,10 @@
         @Styles.Render("~/Content/css")
         @Scripts.Render("~/bundles/modernizr")
     </head>
-    <body ng-app="sensorResearchApp" ng-controller="KeyPressedCtrl" ng-keydown="keyPressed($event)">
+    <body ng-app="sensorResearchApp" ng-controller="KeyPressedCtrl" ng-keydown="keyPressed($event)" id="body">
         @Html.Partial("_Navigation")
-        <div id="body"> 
-            <section class="content-wrapper main-content clear-fix">
+        <div id="mainContent">
                 @RenderBody()
-            </section>
         </div>
 @*        <footer>*@
 @*            <div class="content-wrapper">*@

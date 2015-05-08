@@ -1,4 +1,5 @@
-﻿using SensorResearch.Domain.Models;
+﻿using System.Linq;
+using SensorResearch.Domain.Models;
 using SensorResearch.Domain.Repositories;
 
 namespace SensorResearch.Domain.Services
@@ -12,9 +13,20 @@ namespace SensorResearch.Domain.Services
             Repository = new Repository<ExperimentResult>();
         }
 
-        public void Save(ExperimentResult result)
+        public int Save(ExperimentResult result)
         {
-            Repository.Create(result);
+            return Repository.Create(result).Id;
+        }
+
+
+        public ExperimentResult GetLastExperimentForUser(UserProfile user)
+        {
+            return Repository.GetBy(result => result.User.UserName.Equals(user.UserName)).OrderByDescending(result => result.ExpirementDate).First();
+        }
+
+        public ExperimentResult GetResultsById(int id)
+        {
+            return Repository.GetBy(result => result.Id == id).FirstOrDefault();
         }
     }
 }
