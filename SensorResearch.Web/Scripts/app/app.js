@@ -173,7 +173,7 @@ module.controller('ExperimentCtrl', ['$scope', '$location', '$rootScope', '$http
     };
 
     $scope.startScenario = function () {
-        var delay = $scope.getRandomInt(1, 10)/* * 1000*/;
+        var delay = $scope.getRandomInt(1, 10) * 1000;
         $timeout(function() {
             $scope.currentNumber++;
             $scope.currentKeyPressed = null;
@@ -181,11 +181,7 @@ module.controller('ExperimentCtrl', ['$scope', '$location', '$rootScope', '$http
             $scope.timer.start();
         }, delay);
     };
-
-    $scope.getCurrentNumber = function() {
-        return $scope.currentNumber;
-    }
-
+    
     $scope.selectRandomKeyFromScope = function() {
         var i = $scope.getRandomInt(0, $scope.experimentScopeKeys.length - 1);
 
