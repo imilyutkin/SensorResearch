@@ -63,3 +63,9 @@ background-color: #e8e8e8;
     font-weight: 900 !important;
       border: 1px solid black !important;
 }
+.counter {
+    background: rgb(239, 238, 239);
+    border: none;   
+    font-size: 40px;
+    cursor: context-menu;
+}

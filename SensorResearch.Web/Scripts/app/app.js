@@ -67,6 +67,7 @@ module.controller('ExperimentCtrl', ['$scope', '$location', '$rootScope', '$http
     $scope.isDataSavedWithError = false;
     $scope.experimentScope = [];
     $scope.experimentScopeKeys = [];
+    $scope.status = "";
 
     $scope.isInScope = function (keyCode) {
         var index = $.inArray(keyCode, $scope.experimentScopeKeys);
@@ -178,9 +179,10 @@ module.controller('ExperimentCtrl', ['$scope', '$location', '$rootScope', '$http
     };
 
     $scope.startScenario = function () {
-        var delay = $scope.getRandomInt(1, 10) * 1000;
+        var delay = $scope.getRandomInt(1, 5) * 1000;
         $timeout(function() {
             $scope.currentNumber++;
+            $scope.status = $scope.currentNumber + " из " + $scope.countRepeat;
             $scope.currentKeyPressed = null;
             $scope.selectRandomKeyFromScope();
             $scope.timer.start();
@@ -204,6 +206,11 @@ module.controller('ExperimentCtrl', ['$scope', '$location', '$rootScope', '$http
             $scope.distance = 10;
         } else {
             $scope.distance = $rootScope.distance;
+        }
+        if (!$rootScope.countOfRepetition) {
+            $scope.countRepeat = 10;
+        } else {
+            $scope.countRepeat = $rootScope.countOfRepetition;
         }
     };
 
@@ -338,10 +345,12 @@ module.controller('OptionsCtrl', ['$scope', '$location', '$rootScope', function 
 
     $scope.countOfStimuls = "1";
     $scope.distance = "10";
+    $scope.countOfRepetition = "10";
 
     $scope.synchronize = function() {
         $rootScope.countOfStimuls = parseInt($scope.countOfStimuls);
         $rootScope.distance = parseInt($scope.distance);
+        $rootScope.countOfRepetition = parseInt($scope.countOfRepetition);
     };
 
     $scope.synchronize();
