@@ -287,6 +287,15 @@ module.controller('ResultsCtrl', ['$scope', '$location', '$rootScope', '$http', 
 
 module.controller('OptionsCtrl', ['$scope', '$location', '$rootScope', function ($scope, $location, $rootScope) {
 
+    $scope.countOfStimuls = "1";
+    $scope.distance = "10";
+
+    $scope.synchronize = function() {
+        $rootScope.countOfStimuls = parseInt($scope.countOfStimuls);
+        $rootScope.distance = parseInt($scope.distance);
+    };
+
+    $scope.synchronize();
 }]);
 
 module.controller('DescriptionCtrl', ['$scope', '$location', function ($scope, $location) {

@@ -1,1 +1,38 @@
-﻿
+﻿<div class="panel panel-default">
+    <div class="panel-heading">
+        Количество стимулов
+    </div>
+    <div class="panel-body">
+        <div class="radio">
+            <label><input type="radio" ng-change="synchronize()" ng-model="countOfStimuls" value="1" name="stimuls" checked>1 стимул</label>
+        </div>
+        <div class="radio">
+            <label><input type="radio" ng-change="synchronize()" ng-model="countOfStimuls" value="5" name="stimuls">5 стимулов</label>
+        </div>
+        <div class="radio">
+            <label><input type="radio" ng-change="synchronize()" ng-model="countOfStimuls" value="10" name="stimuls">10 стимулов</label>
+        </div>
+        <div class="radio">
+            <label><input type="radio" ng-change="synchronize()" ng-model="countOfStimuls" value="20" name="stimuls">20 стимулов</label>
+        </div>
+        <div class="radio">
+            <label><input type="radio" ng-change="synchronize()" ng-model="countOfStimuls" value="36" name="stimuls">36 стимулов</label>
+        </div>
+    </div>
+</div>
+<div class="panel panel-default">
+    <div class="panel-heading">
+        Расстояние до клавиатуры
+    </div>
+    <div class="panel-body">
+        <div class="radio">
+            <label><input type="radio" ng-change="synchronize()" ng-model="distance" value="10" name="distance" checked>10 см</label>
+        </div>
+        <div class="radio">
+            <label><input type="radio" ng-change="synchronize()" ng-model="distance" value="20" name="distance">20 см</label>
+        </div>
+        <div class="radio">
+            <label><input type="radio" ng-change="synchronize()" ng-model="distance" value="30" name="distance">30 см</label>
+        </div>
+    </div>
+</div>
