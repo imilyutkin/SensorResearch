@@ -54,3 +54,8 @@ background-color: #e8e8e8;
 #mainContent {
     padding-top: 50px;
 }
+.form-signin {
+  max-width: 330px;
+  padding: 15px;
+  margin: 0 auto;
+}
