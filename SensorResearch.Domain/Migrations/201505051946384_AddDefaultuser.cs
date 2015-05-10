@@ -37,13 +37,13 @@ namespace SensorResearch.Domain.Migrations
             {
                 roles.CreateRole("Student");
             }
-            if (membership.GetUser("admin", false) == null)
+            if (membership.GetUser("ishupeyko", false) == null)
             {
-                membership.CreateUserAndAccount("admin", "admin");
+                membership.CreateUserAndAccount("ishupeyko", "h3iOzIhZ");
             }
-            if (!roles.GetRolesForUser("admin").Contains("admin"))
+            if (!roles.GetRolesForUser("ishupeyko").Contains("Admin"))
             {
-                roles.AddUsersToRoles(new[] { "admin" }, new[] { "Admin" });
+                roles.AddUsersToRoles(new[] { "ishupeyko" }, new[] { "Admin" });
             }
             if (membership.GetUser("student", false) == null)
             {
